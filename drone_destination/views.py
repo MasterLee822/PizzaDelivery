@@ -19,12 +19,23 @@ def get_next_destination(request, drone_token):
     return JsonResponse(package_response(False, message, next_coordinates))
 
 
+def update_drone_status(drone: drone_models.Drone, status:str):
+    drone.status = status
+    drone.save()
+
+
+def update_delivery_status(delivery: drone_models.Delivery, status: str):
+    delivery.status = status
+    delivery.save()
+
+
 def get_new_mission(drone: drone_models.Drone, distance_from_home: int) -> (str, str):
     drone.set_current_location()
     drone.set_latest_remaining_range()
     drone_range = drone.latest_remaining_range
 
     if distance_from_home > drone_range:
+        update_drone_status(drone, 'not_enough_fuel_to_get_home')
         message = "Drone does not have enough power to go home.  I'm going to stay here until I get help."
         log.critical(message)
         return "0.0,0.0", message
@@ -39,12 +50,16 @@ def get_new_mission(drone: drone_models.Drone, distance_from_home: int) -> (str,
         if total_trip_miles_for_next_mission > drone_range:
             return find_alternate_missions(drone)
         else:
+            update_delivery_status(next_delivery, 'en_route')
+            update_drone_status(drone, 'en_route_for_delivery')
             return f"{next_delivery.gps_lat},{next_delivery.gps_long}", "I've got a new mission to fulfill."
     else:
         if distance_from_home == 0:
+            update_drone_status(drone, 'home_base')
             return "0.0,0.0", "No new missions, I'm staying home."
         else:
             gps_string = f"{drone.pizza_company.gps_lat}{drone.pizza_company.gps_long}"
+            update_drone_status(drone, 'en_route_for_recharging')
             return gps_string, "No new missions, I'm going home."
 
 
@@ -56,8 +71,11 @@ def find_alternate_missions(drone: drone_models.Drone) -> (str, str):
         distance_to_next_delivery = get_distance(drone.gps_lat, drone.gps_long, delivery.gps_lat, delivery.gps_long)
         total_trip_miles_for_next_mission = distance_to_next_delivery + delivery.distance_to_home
         if total_trip_miles_for_next_mission < drone_range:
+            update_delivery_status(delivery, 'en_route')
+            update_drone_status(drone, 'en_route_for_delivery')
             return f"{delivery.gps_lat},{delivery.gps_long}", "I've got a new mission to fulfill."
 
+    update_drone_status(drone, 'en_route_for_recharging')
     return f"{drone.pizza_company.gps_lat},{drone.pizza_company.gps_long}", "I'm out of batteries I need to go home."
 
 

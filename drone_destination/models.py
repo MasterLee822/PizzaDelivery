@@ -9,6 +9,7 @@ DRONE_STATUS = (
     (u'home_base', u'Home Base'),
     (u'en_route_for_delivery', u'Off for delivery'),
     (u'en_route_for_recharging', u'En route to recharge'),
+    (u'not_enough_fuel_to_get_home', u'Out of Fuel'),
 )
 
 DELIVERY_STATUS = (
