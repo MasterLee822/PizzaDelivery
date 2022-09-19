@@ -54,8 +54,8 @@ idea(s). Answers interjected in blue below.
 the next destination and be able to reach home? 
 ```diff
 The drone will only request the next destination:
-- once it is ready to leave the pizza store
-- once it has reached a previously commanded destination and made a delivery.
+once it is ready to leave the pizza store
+once it has reached a previously commanded destination and made a delivery.
 The drone will not queue,  it will only ask service at the scenarios above. Do the best service prep you can in order to service the drones requests.
 Remember to make sure the drone can always make it home for re-charge.
 ```
@@ -111,6 +111,6 @@ I hope this information helps. Please let me know if I misinterpreted or did not
 Important: make sure the test has a level of interest/fun for you !! and don’t go deep into a rabbit hole. It’s ok to pass or stub if needed with your time budget.
  
 Best Regards,
--john
+john
 ```
 
