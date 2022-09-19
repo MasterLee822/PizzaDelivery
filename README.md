@@ -44,31 +44,73 @@ Expected functionality:
 You are welcome to implement any additional functionality you think is important for this scenario.
 
 ### Updated Instructions
-Am I expected to queue up the records, and give the drone the next closest address if it can make it to the next destination and be able to reach home? 
+Hi Chris,
+ 
+Glad to see you in our next stage, and always a good idea to ask questions if things are unclear. I will be cautious, 
+and answer your direct questions where it makes sense, and let you decide in areas that we would like to see your 
+idea(s). Answers interjected in blue below.
+
+* Am I expected to queue up the records, and give the drone the next closest address if it can make it to 
+the next destination and be able to reach home? 
+```diff
 The drone will only request the next destination:
 - once it is ready to leave the pizza store
 - once it has reached a previously commanded destination and made a delivery.
- 
 The drone will not queue,  it will only ask service at the scenarios above. Do the best service prep you can in order to service the drones requests.
 Remember to make sure the drone can always make it home for re-charge.
-Are pizza delivery priorities based on order time or destination? It’s a slippery slope if destination is chosen. 
-Latitude for you to enforce your pizza company policies. I think the best business case is to make it as cost effective and efficient as possible.
-Assumptions:
-Will I assume that the range is static, and we don’t need to account for weather for the range?
+```
+* Are pizza delivery priorities based on order time or destination? It’s a slippery slope if destination is 
+chosen. 
+```diff
+Latitude for you to enforce your pizza company policies. I think the best business case is to 
+make it as cost effective and efficient as possible.
+```
+* Assumptions:
+    * Will I assume that the range is static, and we don’t need to account for weather for the range?
+  
+```diff
 Do not worry about weather. Let’s assume sunny skies and no wind interference.
-CSV questions:
-What does this csv file look like in regards to number of records? Am I to assume building a manage.py command and set a cron job to run that command, to look for new records?
+```
+
+*   CSV questions:
+What does this csv file look like in regards to number of records? Am I to assume building a manage.py command and set a 
+    cron job to run that command, to look for new records?
+
+```diff
 Example: # of records should handle dynamic list.
 order_time        address
 8/11/2022 12:15   6868 Capri Ave, Ventura CA
 8/11/2022 13:15   311 E Daily Dr, Camarillo CA
 8/11/2022 14:15   3900 Bluefin Cir, Oxnard CA
 ..
- 
 Adding or subtracting can be a talking points in your code, but we understand limited time on first POC.
-I’m unsure why we would be calculating optimum path during the csv import process. I would expect to do this based on the HTTP get process from the drone. This seems more scalable, based on the possibility of multiple drones and where each drone is currently located at a particular time and battery capacity (based on the assumption that everyone gets the same pizza from the unlimited pizza storage capacity). Can you please clarify the why in calculating the optimal path during the import process?
-This is a matter of design on if you pre-calculate or real time calculate. You are at liberty to determine based on complexity, or value.
-As far as the authentication portion.  My thoughts are that each drone would be provisioned within a secured siloed network from the manufacturer, and given an initial token to start with.  I’m unsure why a drone would be using a username and a password (that seems more like something that the pizza company’s provisioning process would use). Once the pizza company has logged in and taken delivery of the drone, that’s where I see a refresh token is given to the drone.  I’m happy to accept your response for this as “Just do what the instructions say”
+```
+ 
+
+I’m unsure why we would be calculating optimum path during the csv import process. I would expect to do this based on 
+the HTTP get process from the drone. This seems more scalable, based on the possibility of multiple drones and where 
+each drone is currently located at a particular time and battery capacity (based on the assumption that everyone gets 
+the same pizza from the unlimited pizza storage capacity). Can you please clarify the why in calculating the optimal 
+path during the import process?
+```diff
+This is a matter of design on if you pre-calculate or real time calculate. You are at liberty to determine based on 
+complexity, or value.
+```
+
+As far as the authentication portion.  My thoughts are that each drone would be provisioned within a secured siloed 
+network from the manufacturer, and given an initial token to start with.  I’m unsure why a drone would be using a 
+username and a password (that seems more like something that the pizza company’s provisioning process would use). 
+Once the pizza company has logged in and taken delivery of the drone, that’s where I see a refresh token is given to 
+the drone.  I’m happy to accept your response for this as “Just do what the instructions say”
+```diff
 Please, you won’t hear that response 😊
 Your point is valid, Rewording the requirement as follow.
 3. The drone will reach out to your backend service with secure credentials.
+  
+I hope this information helps. Please let me know if I misinterpreted or did not address your concerns.
+Important: make sure the test has a level of interest/fun for you !! and don’t go deep into a rabbit hole. It’s ok to pass or stub if needed with your time budget.
+ 
+Best Regards,
+-john
+```
+
